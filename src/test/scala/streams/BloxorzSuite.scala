@@ -53,6 +53,21 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("block is standing") {
+    new Level1 {
+      val pos = Pos(1,3)
+      val block = Block(pos, pos)
+      assert(block.isStanding)
+   }
+  }
+
+  test("block not is standing") {
+    new Level1 {
+      val block = Block(Pos(1,1), Pos(1,2))
+      assert(!block.isStanding)
+    }
+  }
+
   test("optimal solution for level 1") {
     new Level1 {
       assert(solve(solution) == Block(goal, goal))
