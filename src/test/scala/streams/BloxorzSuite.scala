@@ -89,6 +89,19 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("checking neighbors") {
+    new Level1 {
+      val neighbors = startBlock.neighbors
+      val left = neighbors(0)._1
+      val right = neighbors(1)._1
+      val up = neighbors(2)._1
+      val down = neighbors(3)._1
+      assert(left == Block(Pos(1,-1), Pos(1,0)))
+      assert(right == Block(Pos(1,2), Pos(1,3)))
+      assert(up == Block(Pos(-1,1), Pos(0,1)))
+      assert(down == Block(Pos(2,1), Pos(3,1)))
+    }
+  }
 
   test("optimal solution for level 1") {
     new Level1 {
