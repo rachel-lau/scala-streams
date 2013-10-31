@@ -61,10 +61,24 @@ class BloxorzSuite extends FunSuite {
    }
   }
 
-  test("block not is standing") {
+  test("block is not standing") {
     new Level1 {
       val block = Block(Pos(1,1), Pos(1,2))
       assert(!block.isStanding)
+    }
+  }
+
+  test("block is inside the terrain") {
+    new Level1 {
+      val block = Block(Pos(0,0), Pos(0,1))
+      assert(block.isLegal)
+    }
+  }
+
+  test("block is not inside the terrain") {
+    new Level1 {
+      val block = Block(Pos(3,0), Pos(3,1))
+      assert(!block.isLegal)
     }
   }
 
