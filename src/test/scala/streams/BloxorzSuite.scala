@@ -126,6 +126,28 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  /**
+   * neighborsWithHistory(Block(Pos(1,1),Pos(1,1)), List(Left,Up)) returns
+   * a stream with the following elements
+   * (Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up))
+   * (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+   */
+  test("neighborsWithHistory") {
+    new Level1 {
+      val next = neighborsWithHistory(startBlock, List(Left,Up))
+      val neighbors = startBlock.legalNeighbors
+      val right = neighbors(0)._1
+      val down = neighbors(1)._1
+      val first = next(0)
+      val second = next(1)
+      assert(first._1 == right)
+      assert(first._2 == List(Right,Left,Up))
+      assert(second._1 == down)
+      assert(second._2 == List(Down,Left,Up))
+      assert(next.length == 2)
+    }
+  }
+
   test("optimal solution for level 1") {
     new Level1 {
       assert(solve(solution) == Block(goal, goal))
