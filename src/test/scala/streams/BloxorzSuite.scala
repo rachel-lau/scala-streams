@@ -114,6 +114,18 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("block is at the final position") {
+    new Level1 {
+      assert(done(Block(goal, goal)))
+    }
+  }
+
+  test("block is not at the final position") {
+    new Level1 {
+      assert(!done(Block(startPos, startPos)))
+    }
+  }
+
   test("optimal solution for level 1") {
     new Level1 {
       assert(solve(solution) == Block(goal, goal))
