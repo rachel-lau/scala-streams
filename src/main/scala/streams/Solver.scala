@@ -78,12 +78,25 @@ trait Solver extends GameDef {
    * construct the correctly sorted stream.
    */
   def from(initial: Stream[(Block, List[Move])],
-           explored: Set[Block]): Stream[(Block, List[Move])] = ???
+           explored: Set[Block]): Stream[(Block, List[Move])] = {
+    if (initial.isEmpty) 
+       Stream.empty
+    else {
+      val more = for {
+        (block, history) <- initial
+        next <- newNeighborsOnly(neighborsWithHistory(block, history), explored)
+      } yield next
+      Stream.concat(initial, from(more, explored ++ (more map (_._1))))
+    }
+  }
 
   /**
    * The stream of all paths that begin at the starting block.
    */
-  lazy val pathsFromStart: Stream[(Block, List[Move])] = ???
+  lazy val pathsFromStart: Stream[(Block, List[Move])] = {
+    val initial = Set((startBlock, List())).toStream
+    from(initial, Set(startBlock))
+  }
 
   /**
    * Returns a stream of all possible pairs of the goal block along
@@ -99,5 +112,7 @@ trait Solver extends GameDef {
    * the first move that the player should perform from the starting
    * position.
    */
-  lazy val solution: List[Move] = ???
+  lazy val solution: List[Move] = {
+    (pathsFromStart filter ((path) => path._1 == Block(goal, goal))).head._2
+  }
 }
